@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.scene.image.*;
 import java.awt.Color;
 import java.awt.Desktop.Action;
+import java.awt.event.MouseEvent;
 import javafx.geometry.Insets;
 import java.util.Random;
 import javafx.event.Event;
@@ -117,6 +118,7 @@ public class BattleShip extends Application {
                lblPlayer[row][col].setGraphic(new ImageView(imgShip));
                lblPlayer[row][col].setMaxSize(16.0, 16.0);
                lblPlayer[row][col].setStyle("-fx-border-width:1;-fx-border-color:black;");
+            
                pnlPlayer.add(lblPlayer[row][col], col, row);      
                
            
