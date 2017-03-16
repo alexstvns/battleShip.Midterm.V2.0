@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import javafx.scene.image.*;
 import java.awt.Color;
 import java.awt.Desktop.Action;
-import java.awt.event.MouseEvent;
 import javafx.geometry.Insets;
 import java.util.Random;
 import javafx.event.Event;
@@ -25,7 +24,7 @@ import static javafx.scene.paint.Color.*;
  *
  * @author gstev
  */
-public class BattleShip extends Application {
+public class BattleShip extends Application  {
     
     private static final int MAXSHIPS = 14;
     private static final int GRIDSIZE  = 16;
@@ -41,6 +40,11 @@ public class BattleShip extends Application {
     private Label infoLabel = new Label();
     private String miss = "Missed Shots: ";
     
+    private Label[][] cover = new Label[GRIDSIZE][GRIDSIZE];
+    GridPane Hidden = new GridPane();
+    StackPane Board = new StackPane();
+    
+    
     @Override
     public void start(Stage primaryStage) {
                 
@@ -51,16 +55,18 @@ public class BattleShip extends Application {
         primaryStage.setTitle("Battleship");
         primaryStage.setScene(scene);
         primaryStage.show();
+          this.newGame();   // new game method handles the new game procedures
         //this.initOcean();
         //this.createPlayerPanel();
         this.createOptionPane();
+        Board.getChildren().addAll(pnlPlayer,Hidden);
         //createShips();
-        root.setCenter(pnlPlayer);
+        root.setCenter(Board);
         root.setTop(controlPane);
         //placeShips();
-        this.newGame();
+      
         
-        this.reset.setOnAction(new EventHandler<ActionEvent>() {
+        this.reset.setOnAction(new EventHandler<ActionEvent>() {   // button event for reset button that will start a new game.
             @Override
             public void handle(ActionEvent event) {
                newGame();
@@ -113,14 +119,21 @@ public class BattleShip extends Application {
        {
            for(int col = 0; col < GRIDSIZE; col++)
            {
-               lblPlayer[row][col] = new Label();               
+               lblPlayer[row][col] = new Label();
+               
                Image imgShip = new Image("file:Images\\batt100.gif");
                lblPlayer[row][col].setGraphic(new ImageView(imgShip));
                lblPlayer[row][col].setMaxSize(16.0, 16.0);
                lblPlayer[row][col].setStyle("-fx-border-width:1;-fx-border-color:black;");
-            
-               pnlPlayer.add(lblPlayer[row][col], col, row);      
                
+               cover[row][col] = new Label();
+               Image coverImg = new Image("file:Images\\batt101.gif");
+               cover[row][col].setGraphic(new ImageView(coverImg));
+               cover[row][col].setMaxSize(16.0,16.0);
+               cover[row][col].setStyle("-fx-border-width:1;-fx-border-color:black;");
+               
+               pnlPlayer.add(lblPlayer[row][col], col, row);      
+               Hidden.add(cover[row][col],col,row);
            
            }
        }
@@ -128,11 +141,11 @@ public class BattleShip extends Application {
     }
     private void createShips()
     {
-        //this.loadShipImages();
+        //this.loadShipImages();   // don't need since img's are loaded in ship.java
         this.createShipInfo();
     }
     /*
-    private void loadShipImages()
+    private void loadShipImages()   // moved similar method to Ship.java
     {
         for(int i = 0; i < 10 ; i++)
         {
@@ -344,6 +357,12 @@ public class BattleShip extends Application {
                 return 0;   // No place to move			
 
     }
+    
+
+    
+    
+    
+    
 
     /**
      * @param args the command line arguments
