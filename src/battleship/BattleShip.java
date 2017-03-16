@@ -14,8 +14,11 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
 import java.awt.Color;
+import java.awt.Desktop.Action;
 import javafx.geometry.Insets;
 import java.util.Random;
+import javafx.event.Event;
+import static javafx.scene.paint.Color.*;
 
 /**
  *
@@ -30,23 +33,77 @@ public class BattleShip extends Application {
     private Image[] imgShips = new Image[10];
     private Ship[] shipInfo = new Ship[8];
     private char[][] ocean = new char[16][16];    
-    
+    private GridPane controlPane = new GridPane();
+    private Button reset = new Button("Reset");
+    private Button showShips = new Button("Show Ships");
+    private int missCount = 0;
+    private Label infoLabel = new Label();
+    private String miss = "Missed Shots: ";
     
     @Override
     public void start(Stage primaryStage) {
                 
         BorderPane root = new BorderPane();
                 
-        Scene scene = new Scene(root, 290, 290);
+        Scene scene = new Scene(root, 290, 315);
         
         primaryStage.setTitle("Battleship");
         primaryStage.setScene(scene);
         primaryStage.show();
+        //this.initOcean();
+        //this.createPlayerPanel();
+        this.createOptionPane();
+        //createShips();
+        root.setCenter(pnlPlayer);
+        root.setTop(controlPane);
+        //placeShips();
+        this.newGame();
+        
+        this.reset.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               newGame();
+            }
+        }
+        
+        );
+    }
+    
+    private void newGame(){         // call this to reset everything and start a new game or at beginning of game launch.
+        
         this.initOcean();
         this.createPlayerPanel();
         createShips();
-        root.setCenter(pnlPlayer);
         placeShips();
+        this.missCount=0;
+        infoLabel.setText(miss+""+missCount);
+        
+    }
+      
+    private void createOptionPane()     // creates the panel to house reset,show boats, and # missed shots 
+    {
+      controlPane.setStyle("-fx-background-color:BLACK;");
+       
+       controlPane.setHgap(30);
+       
+       infoLabel.setText(miss+""+missCount);
+       controlPane.add(infoLabel,0,0);
+        infoLabel.setTextFill(LIGHTGREEN);
+        
+      
+       controlPane.add(reset,1,0);
+   
+            reset.setTextFill(YELLOW);
+            
+            reset.setStyle("-fx-border-width:1;-fx-border-color:YELLOW;-fx-background-color:BLACK;");
+            
+       controlPane.add(showShips,2,0);
+           showShips.setTextFill(YELLOW);
+          
+           showShips.setStyle("-fx-border-width:1;-fx-border-color:YELLOW;-fx-background-color:BLACK;");
+       
+      
+        
     }
     private void createPlayerPanel()
     {
@@ -61,6 +118,7 @@ public class BattleShip extends Application {
                lblPlayer[row][col].setMaxSize(16.0, 16.0);
                lblPlayer[row][col].setStyle("-fx-border-width:1;-fx-border-color:black;");
                pnlPlayer.add(lblPlayer[row][col], col, row);      
+               
            
            }
        }
@@ -103,6 +161,8 @@ public class BattleShip extends Application {
 		shipInfo[6] = new BattShip('H');
 		//int[] battleShipV = {5,6,7,8,9};
 		shipInfo[7] = new BattShip('V'); 
+                
+               
     }
     private void initOcean()
     {
@@ -242,6 +302,8 @@ public class BattleShip extends Application {
             boolean clearPath = true;
             int len = si.length();
             System.out.println(len);
+          
+            
 
             for(int i = row; i < (row + si.length()); i++)
             {
