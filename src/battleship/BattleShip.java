@@ -18,6 +18,7 @@ import java.awt.Desktop.Action;
 import javafx.geometry.Insets;
 import java.util.Random;
 import javafx.event.Event;
+import javafx.scene.input.MouseEvent;
 import static javafx.scene.paint.Color.*;
 
 /**
@@ -55,7 +56,7 @@ public class BattleShip extends Application  {
         primaryStage.setTitle("Battleship");
         primaryStage.setScene(scene);
         primaryStage.show();
-          this.newGame();   // new game method handles the new game procedures
+        this.newGame();   // new game method handles the new game procedures
         //this.initOcean();
         //this.createPlayerPanel();
         this.createOptionPane();
@@ -69,19 +70,34 @@ public class BattleShip extends Application  {
         this.reset.setOnAction(new EventHandler<ActionEvent>() {   // button event for reset button that will start a new game.
             @Override
             public void handle(ActionEvent event) {
+               revealShips();
                newGame();
             }
         }
         
         );
+        
+        
+        this.showShips.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            
+                revealShips();
+            }
+            
+        });
+        
+        
+        
     }
     
-    private void newGame(){         // call this to reset everything and start a new game or at beginning of game launch.
+    private void newGame(){ 
+        // call this to reset everything and start a new game or at beginning of game launch.
+        this.createPlayerPanel();
         
         this.initOcean();
-        this.createPlayerPanel();
-        createShips();
-        placeShips();
+        this.createShips();
+        this.placeShips();
         this.missCount=0;
         infoLabel.setText(miss+""+missCount);
         
@@ -132,6 +148,58 @@ public class BattleShip extends Application  {
                cover[row][col].setMaxSize(16.0,16.0);
                cover[row][col].setStyle("-fx-border-width:1;-fx-border-color:black;");
                
+               cover[row][col].setOnMouseClicked(new EventHandler<MouseEvent>()
+               {
+                   @Override
+                   public void handle(MouseEvent t) {
+                       
+                       for(int row=0;row<GRIDSIZE;row++){
+                           for(int col=0;col<GRIDSIZE;col++){
+                               
+                               Label clicked = (Label)t.getSource();
+                               
+                               
+                               if(clicked == cover[row][col]){
+                                   
+                                    if(ocean[row][col]=='O'){
+                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt102.gif"));
+                                        missCount++;
+                                        infoLabel.setText(miss+""+missCount); 
+                                        cover[row][col].setVisible(false);
+                                        
+                                    }
+                                    else if(ocean[row][col]=='F'){
+                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
+                                        cover[row][col].setVisible(false);
+                                    }
+                                    else if(ocean[row][col]=='B'){
+                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
+                                        cover[row][col].setVisible(false);
+                                        
+                                    }
+                                    else if(ocean[row][col]=='M'){
+                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
+                                        cover[row][col].setVisible(false);
+                                    }
+                                    else if(ocean[row][col]=='C'){
+                                        
+                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
+                                        cover[row][col].setVisible(false);
+                                    }
+                                   
+                               }
+                               
+                           }
+                           
+                           
+                       }
+                       
+                       
+                       
+                   }
+                   
+               });
+               
                pnlPlayer.add(lblPlayer[row][col], col, row);      
                Hidden.add(cover[row][col],col,row);
            
@@ -139,6 +207,17 @@ public class BattleShip extends Application  {
        }
       
     }
+    private void revealShips(){
+        
+        for(int row=0;row<GRIDSIZE;row++){
+         for(int col=0;col<GRIDSIZE;col++){
+             
+             cover[row][col].setVisible(false);
+        }
+        }
+    }
+  
+    
     private void createShips()
     {
         //this.loadShipImages();   // don't need since img's are loaded in ship.java
