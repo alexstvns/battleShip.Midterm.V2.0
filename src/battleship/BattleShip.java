@@ -161,32 +161,28 @@ public class BattleShip extends Application  {
                                
                                if(clicked == cover[row][col]){
                                    
-                                    if(ocean[row][col]=='O'){
-                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt102.gif"));
+                                   char Finder = Character.toUpperCase(ocean[row][col]);
+                                   
+                                   switch(Finder){
+                                       
+                                       case 'O':
+                                       lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt102.gif"));
                                         missCount++;
                                         infoLabel.setText(miss+""+missCount); 
                                         cover[row][col].setVisible(false);
+                                        break;
                                         
-                                    }
-                                    else if(ocean[row][col]=='F'){
-                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
+                                       case 'F':
+                                       case 'B':
+                                       case 'M':
+                                       case 'C':
+                                           lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
                                         cover[row][col].setVisible(false);
-                                    }
-                                    else if(ocean[row][col]=='B'){
-                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
-                                        cover[row][col].setVisible(false);
-                                        
-                                    }
-                                    else if(ocean[row][col]=='M'){
-                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
-                                        cover[row][col].setVisible(false);
-                                    }
-                                    else if(ocean[row][col]=='C'){
-                                        
-                                        lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
-                                        cover[row][col].setVisible(false);
-                                    }
-                                   
+                                        break;
+                                           
+                                       
+                                   }
+                                  
                                }
                                
                            }
