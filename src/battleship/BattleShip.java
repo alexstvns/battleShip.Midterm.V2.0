@@ -1,7 +1,5 @@
  /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+Alex Stevens
  */
 package battleship;
 
@@ -107,7 +105,7 @@ public class BattleShip extends Application  {
     {
       controlPane.setStyle("-fx-background-color:BLACK;");
        
-       controlPane.setHgap(30);
+       controlPane.setHgap(10);
        
        infoLabel.setText(miss+""+missCount);
        controlPane.add(infoLabel,0,0);
@@ -173,11 +171,19 @@ public class BattleShip extends Application  {
                                         break;
                                         
                                        case 'F':
+                                          hit(row,col);
+                                          break;
+                                        
                                        case 'B':
+                                          hit(row,col);
+                                       break;
+                                       
                                        case 'M':
+                                          hit(row,col); 
+                                          break;
                                        case 'C':
-                                           lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
-                                        cover[row][col].setVisible(false);
+                                        
+                                       hit(row,col);
                                         break;
                                            
                                        
@@ -290,8 +296,9 @@ public class BattleShip extends Application  {
                 }
                 // got a clear path, let put the ship on the ocean
                // int shipPieces[] = si.getShipPieces();
-               Image[] hBoat = si.retShipH();
-               Image[] vBoat = si.retShipV();
+               Image[] hBoat= si.retShipH();
+               Image[] vBoat= si.retShipV();
+             
                 if(si.Direction == 'H')  // place horizontal
                 {
                         if(direction == 1)
@@ -433,6 +440,14 @@ public class BattleShip extends Application  {
 
     }
     
+ void hit(int row,int col){
+    
+    
+      lblPlayer[row][col].setGraphic(new ImageView("file:Images\\batt103.gif"));
+                                        cover[row][col].setVisible(false);
+    
+}
+ 
 
     
     

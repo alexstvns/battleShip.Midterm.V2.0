@@ -5,7 +5,9 @@
  */
 package battleship;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -20,6 +22,8 @@ public class Ship
         protected Image[] shipImageV;
         protected Image[] shipImageH;
         
+      
+        
 	Ship(String name,int[]V,int[]H)
 	{
             this.shipName = name;
@@ -27,33 +31,40 @@ public class Ship
             
             this.shipImageV = new Image[V.length];
             this.shipImageH = new Image[H.length];
+
+            
             
             this.shipBuilder(V,H);
+              
+            /*
+                shipPieces = new int[V.length];
+		for(int i = 0; i < V.length; i++)
+			shipPieces[i] = pieces[i];
                 
-                
-                
-                
+              */  
             }
             
-            /*
-		this.Direction = Direction;
-		this.shipName = name;
-		shipPieces = new int[pieces.length];
-		for(int i = 0; i < pieces.length; i++)
-			shipPieces[i] = pieces[i];
-		*/
+           
+		
+	
 
     private void shipBuilder(int[] V, int[] H) {
         
         for(int i=0;i<V.length;i++){
             
+        
+            
             shipImageV[i] =new Image("file:Images\\batt" + (V[i]+1) + ".gif");
             shipImageH[i] = new Image("file:Images\\batt" + (H[i]+1) + ".gif");
+           
+        
             
-            
+           
         }
         
     }
+    
+ 
 	
 	public String getName()
 	{
@@ -76,13 +87,16 @@ public class Ship
         
         public Image[] retShipV(){
             
-            
+         
             return this.shipImageV;
         }
         
         public Image[] retShipH(){
             
-            return this.shipImageH;
+         
+            
+          
+           return this.shipImageH;
             
         }
 }
